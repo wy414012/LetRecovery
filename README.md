@@ -73,7 +73,7 @@
 
 ```
 LetRecovery/
-├── 正常系统端/          # Windows 桌面环境版本
+├── desktop/          # Windows 桌面环境版本
 │   ├── src/
 │   │   ├── app.rs       # 主应用程序
 │   │   ├── core/        # 核心功能模块
@@ -88,7 +88,7 @@ LetRecovery/
 │   │   ├── ui/          # 用户界面
 │   │   └── utils/       # 工具函数
 │   └── Cargo.toml
-├── PE端/               # WinPE 环境版本
+├── pe/               # WinPE 环境版本
 │   ├── src/
 │   │   ├── app.rs
 │   │   ├── core/
