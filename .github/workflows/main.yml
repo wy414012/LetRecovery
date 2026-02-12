@@ -26,6 +26,12 @@ jobs:
         working-directory: 正常系统端
         run: |
           cargo build --release --all-features --target=x86_64-pc-windows-msvc
+      - name: Upload Desktop artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: LetRecovery-Desktop
+          path: 正常系统端/target/x86_64-pc-windows-msvc/release/LetRecovery.exe
+          retention-days: 30
   test-pe-build:
     runs-on: windows-latest
     steps:
@@ -42,3 +48,9 @@ jobs:
         working-directory: PE端
         run: |
           cargo build --release --all-features --target=x86_64-pc-windows-msvc
+      - name: Upload PE artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: LetRecovery-PE
+          path: PE端/target/x86_64-pc-windows-msvc/release/LetRecovery.exe
+          retention-days: 30
