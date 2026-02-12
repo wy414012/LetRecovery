@@ -14,10 +14,10 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: recursive
-      - uses: actions-rs/toolchain@v1
+      - uses: wy414012/toolchain@master
         with:
           profile: minimal
           toolchain: "stable" # stable
@@ -36,10 +36,10 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: recursive
-      - uses: actions-rs/toolchain@v1
+      - uses: wy414012/toolchain@master
         with:
           profile: minimal
           toolchain: "stable" # stable
