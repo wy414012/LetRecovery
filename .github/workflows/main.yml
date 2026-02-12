@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  test-windows:
+  test-Desktop-build:
     runs-on: windows-latest
     steps:
       - name: Checkout source code
@@ -22,13 +22,23 @@ jobs:
           profile: minimal
           toolchain: "stable" # stable
           override: true
-      - uses: actions-rs/cargo@v1
+      - name: build Desktop
         working-directory: 正常系统端
+        run: |
+          cargo build --release
+  test-pe-build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
         with:
-          command: build
-          args: --release
-      - uses: actions-rs/cargo@v1
+          submodules: recursive
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: "stable" # stable
+          override: true
+      - name: build pe
         working-directory: PE端
-        with:
-          command: build
-          args: --release
+        run: |
+          cargo build --release
