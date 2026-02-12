@@ -1,0 +1,34 @@
+name: test
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**/README.md'
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+
+jobs:
+  test-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: "stable" # stable
+          override: true
+      - uses: actions-rs/cargo@v1
+        working-directory: 正常系统端
+        with:
+          command: build
+          args: --release
+      - uses: actions-rs/cargo@v1
+        working-directory: PE端
+        with:
+          command: build
+          args: --release
