@@ -6,6 +6,8 @@
 //! 注意：DISM API 在某些 PE 环境中可能不可用或行为不一致，
 //! 建议优先使用 dism_exe.rs 中的命令行方式。
 
+#![allow(dead_code)]
+
 use std::ffi::{c_void, OsStr};
 use std::os::windows::ffi::OsStrExt;
 use std::path::Path;

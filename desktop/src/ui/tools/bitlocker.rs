@@ -17,9 +17,6 @@ pub use crate::core::bitlocker::{
     has_locked_partitions as has_bitlocker_partitions,
     unlock_partition_with_password as unlock_with_password,
     unlock_partition_with_recovery_key as unlock_with_recovery_key,
-    partition_needs_unlock,
-    decrypt_partition,
-    partition_can_decrypt,
 };
 
 /// 为兼容性提供的别名

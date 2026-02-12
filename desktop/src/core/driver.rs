@@ -1077,7 +1077,7 @@ impl DriverManager {
         offline_root: &Path,
         driver_store_dir: &Path,
         inf_filename: &str,
-        oem_inf_name: &str,
+        _oem_inf_name: &str,
     ) -> Result<()> {
         use crate::core::registry::OfflineRegistry;
         

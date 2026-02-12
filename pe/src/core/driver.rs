@@ -8,6 +8,8 @@
 //!
 //! 不依赖 DISM 命令行，直接调用系统 DLL
 
+#![allow(dead_code)]
+
 use std::ffi::{c_void, OsStr, OsString};
 use std::os::windows::ffi::{OsStrExt, OsStringExt};
 use std::path::{Path, PathBuf};

@@ -606,7 +606,7 @@ impl FveApi {
     /// # 注意
     /// 此方法以只读模式打开卷，适用于状态查询和解锁操作。
     /// 如需进行解密等写操作，请使用 `open_volume_ex` 并指定 `FveAccessMode::ReadWrite`。
-    pub fn open_volume(&self, volume_path: &str) -> Result<FveVolumeHandle, FveError> {
+    pub fn open_volume(&self, volume_path: &str) -> Result<FveVolumeHandle<'_>, FveError> {
         self.open_volume_ex(volume_path, FveAccessMode::ReadOnly)
     }
 
@@ -625,7 +625,7 @@ impl FveApi {
     /// 根据逆向分析，以下操作需要读写模式：
     /// - `FveConversionDecrypt` / `FveConversionDecryptEx` - 开始解密
     /// - `FveConversionEncrypt` / `FveConversionEncryptEx` - 开始加密
-    pub fn open_volume_ex(&self, volume_path: &str, access_mode: FveAccessMode) -> Result<FveVolumeHandle, FveError> {
+    pub fn open_volume_ex(&self, volume_path: &str, access_mode: FveAccessMode) -> Result<FveVolumeHandle<'_>, FveError> {
         let normalized_path = normalize_volume_path(volume_path);
         let wide_path = to_wide_string(&normalized_path);
         let mut handle: *mut c_void = std::ptr::null_mut();

@@ -6,6 +6,7 @@
 //! 参考: https://learn.microsoft.com/zh-cn/windows-hardware/manufacture/desktop/wim/dd834950(v=msdn.10)?view=windows-11
 
 #![allow(non_snake_case)]
+#![allow(dead_code)]
 
 use std::ffi::{c_void, OsStr};
 use std::os::windows::ffi::OsStrExt;

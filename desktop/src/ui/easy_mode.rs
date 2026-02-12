@@ -166,19 +166,19 @@ impl App {
         system: &EasyModeSystem,
         is_selected: bool,
         width: f32,
-        height: f32,
+        _height: f32,
     ) -> (bool, bool) {
         let mut card_clicked = false;
         let mut install_clicked = false;
         
         // 使用 egui 原版风格的 Frame
         let frame = if is_selected {
-            egui::Frame::none()
+            egui::Frame::NONE
                 .fill(ui.visuals().selection.bg_fill)
                 .stroke(egui::Stroke::new(2.0, ui.visuals().selection.stroke.color))
                 .inner_margin(12.0)
         } else {
-            egui::Frame::none()
+            egui::Frame::NONE
                 .fill(ui.visuals().widgets.noninteractive.bg_fill)
                 .stroke(ui.visuals().widgets.noninteractive.bg_stroke)
                 .inner_margin(12.0)
@@ -202,7 +202,7 @@ impl App {
                 let top_response = ui.allocate_rect(top_rect, egui::Sense::click());
                 
                 // 在点击区域内绘制内容
-                ui.allocate_ui_at_rect(top_rect, |ui| {
+                ui.allocate_new_ui(egui::UiBuilder::new().max_rect(top_rect), |ui| {
                     ui.vertical_centered(|ui| {
                         ui.add_space(5.0);
                         
@@ -249,7 +249,7 @@ impl App {
                             // 使用唯一的 ID
                             let combo_id = egui::Id::new(format!("easy_vol_combo_{}", idx));
                             
-                            egui::ComboBox::from_id_source(combo_id)
+                            egui::ComboBox::new(combo_id, "")
                                 .selected_text(selected_vol_name)
                                 .width(width - 50.0)
                                 .show_ui(ui, |ui| {
@@ -347,8 +347,8 @@ impl App {
                 ctx_clone.request_repaint();
                 
                 // 通过静态变量传递结果
-                unsafe {
-                    LOGO_LOAD_RESULTS.push(LogoLoadResult {
+                if let Ok(mut results) = LOGO_LOAD_RESULTS.lock() {
+                    results.push(LogoLoadResult {
                         url,
                         data: result,
                     });
@@ -361,9 +361,9 @@ impl App {
     
     /// 处理Logo加载结果
     pub fn process_easy_mode_logo_results(&mut self, ctx: &egui::Context) {
-        let results: Vec<LogoLoadResult> = unsafe {
-            std::mem::take(&mut LOGO_LOAD_RESULTS)
-        };
+        let results: Vec<LogoLoadResult> = LOGO_LOAD_RESULTS.lock()
+            .map(|mut r| std::mem::take(&mut *r))
+            .unwrap_or_default();
         
         for result in results {
             self.easy_mode_logo_loading.remove(&result.url);
@@ -623,5 +623,6 @@ fn load_logo_from_url(url: &str) -> Result<Vec<u8>, String> {
         .map_err(|e| e.to_string())
 }
 
-// 静态变量存储Logo加载结果
-static mut LOGO_LOAD_RESULTS: Vec<LogoLoadResult> = Vec::new();
+// 静态变量存储Logo加载结果（使用 Mutex 保证线程安全）
+use std::sync::Mutex;
+static LOGO_LOAD_RESULTS: Mutex<Vec<LogoLoadResult>> = Mutex::new(Vec::new());

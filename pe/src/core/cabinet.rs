@@ -3,6 +3,9 @@
 //! 使用 Windows SetupAPI (setupapi.dll) 的 SetupIterateCabinet 函数实现 .cab 文件解压。
 //! 主要用于解压 Windows 更新包（如 KB2990941、KB3087873 等 NVMe 驱动补丁）。
 
+#![allow(dead_code)]
+#![allow(non_snake_case)]
+
 use std::ffi::c_void;
 use std::path::{Path, PathBuf};
 use std::ptr::null_mut;
